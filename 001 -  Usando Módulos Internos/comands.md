@@ -10,3 +10,7 @@ mv para mover diretorios
 
 node - para entrar no ambiente node e executar codigos
 .exit - para sair
+
+
+node --watch server.js 
+
