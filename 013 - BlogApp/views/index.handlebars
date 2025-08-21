@@ -1,0 +1,37 @@
+<h2>Página de posts</h2>
+
+<div class="jumbotron">
+  <h1 class="display-4">Bem vindo ao Blog do Node</h1>
+  <p class="lead">Este é um BLOG simples, desenvolvido com Node.js + MongoDB</p>
+  <hr class="my-4" />
+  <p>Aqui você vai poder ler sobre as novidades do mundo da computação</p>
+  {{#if user}}{{else}}
+    <a
+      class="btn btn-primary btn-lg"
+      href="/usuarios/registro"
+      role="button"
+    >Crie uma conta</a>
+  {{/if}}
+
+</div>
+
+<hr />
+
+<h2>Postagens Recentes:</h2>
+
+{{#each postagens}}
+  <div class="card">
+    <div class="card-body mt-4">
+      <h3>Titulo: {{titulo}}</h3>
+      <p>Descrição: {{descricao}}</p>
+      <a href="/postagem/{{slug}}">
+        <button class="btn btn-success">Leia mais</button>
+      </a>
+      <hr />
+      <small>Categoria: {{categoria.nome}}</small>
+      <br />
+      <small>Data de Publicação: {{data}}</small>
+    </div>
+  </div>{{else}}
+  <h5>Nenhuma Postagem </h5>
+{{/each}}
