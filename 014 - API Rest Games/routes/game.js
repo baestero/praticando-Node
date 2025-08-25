@@ -61,4 +61,28 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ msg: "ID inválido" });
+  }
+
+  try {
+    const { title, year, price } = req.body;
+
+    const game = await Game.findByIdAndUpdate(
+      id,
+      { title, year, price },
+      { new: true, runValidators: true }
+    );
+    if (!game) {
+      return res.status(404).json({ msg: "Game não encontrado" });
+    }
+
+    res.status(200).json(game);
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+});
+
 module.exports = router;

@@ -23,4 +23,7 @@ app.get("/", (req, res) => {
 const gameRoutes = require("./routes/game");
 app.use("/games", gameRoutes);
 
+const usuarioRoutes = require("./routes/usuario");
+app.use("/usuario", usuarioRoutes);
+
 app.listen(3000, () => console.log("Servidor Rodando na porta 3000"));
