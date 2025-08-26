@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const Game = require("../models/Game");
+const auth = require("../middlewares/auth");
+
+router.use(auth);
 
 router.get("/", async (req, res) => {
   try {
     const games = await Game.find();
-    res.status(200).json(games);
+    res.status(200).json({ games: games, usuario: req.user });
   } catch (err) {
     res.status(500).json({ err: err.message });
   }

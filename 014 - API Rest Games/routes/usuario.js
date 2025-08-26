@@ -3,12 +3,9 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const Usuario = require("../models/Usuario");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-router.get("/registro", (req, res) => {
-  res.json({
-    message: "Rota de resgistro",
-  });
-});
+const JWTSecret = "feiewifwepfmdwpfjdsfhjqwadfjpwqo"; //env
 
 router.post("/registro", async (req, res) => {
   const { name, email, password } = req.body;
@@ -41,16 +38,13 @@ router.post("/registro", async (req, res) => {
   }
 });
 
-router.get("/auth", (req, res) => {
-  res.json({ message: "Rota de Login" });
-});
-
 router.post("/auth", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
     return res.json({
-      message: "Email e Password, são obrigatórios para o Login!",
+      message: "Email e Senha, são obrigatórios para o Login!",
+      type: "error",
     });
   }
 
@@ -58,22 +52,39 @@ router.post("/auth", async (req, res) => {
     const usuario = await Usuario.findOne({ email });
 
     if (!usuario) {
-      return res.status(404).json({ message: "Usuario ou senha incorretos" });
-    }
-
-    const senhaValida = await bcrypt.compare(password, usuario.password);
-
-    if (senhaValida) {
-      return res
-        .status(200)
-        .json({ message: "Login bem-sucedido", type: "success" });
-    } else {
       return res
         .status(401)
         .json({ message: "Usuario ou senha incorretos", type: "error" });
     }
+
+    const senhaValida = await bcrypt.compare(password, usuario.password);
+
+    if (!senhaValida) {
+      return res
+        .status(401)
+        .json({ message: "Usuario ou senha incorretos", type: "error" });
+    }
+
+    const token = jwt.sign(
+      {
+        id: usuario.id,
+        email: usuario.email,
+      },
+      JWTSecret,
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    res.status(200).json({
+      message: "Login bem-sucedido",
+      type: "success",
+      token,
+    });
   } catch (err) {
-    res.status(500).json({ err: err.message, type: "error" });
+    return res
+      .status(500)
+      .json({ message: "Erro interno do servidor", type: "error" });
   }
 });
 
