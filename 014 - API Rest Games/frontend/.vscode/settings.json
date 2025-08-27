@@ -1,0 +1,20 @@
+{
+  "workbench.colorTheme": "Beautiful Dracula Normal - No Highlight",
+  "workbench.iconTheme": "eq-material-theme-icons-darker",
+  "editor.matchBrackets": "never",
+  "editor.bracketPairColorization.enabled": false,
+  "editor.foldingHighlight": false,
+  "editor.formatOnSave": true,
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.folding": true,
+  "editor.foldingStrategy": "auto",
+  "editor.showFoldingControls": "always",
+  "editor.unfoldOnClickAfterEndOfLine": false,
+  "git.decorations.enabled": false,
+  "scm.diffDecorations": "none",
+  "settingsSync.ignoredSettings": ["scm.diffDecorations"],
+  "workbench.settings.applyToAllProfiles": ["scm.diffDecorations"],
+  "python.createEnvironment.trigger": "off"
+}

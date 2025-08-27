@@ -1,9 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const cors = require("cors");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 (async () => {
   try {
@@ -23,7 +25,7 @@ app.get("/", (req, res) => {
 const gameRoutes = require("./routes/game");
 app.use("/games", gameRoutes);
 
-const usuarioRoutes = require("./routes/usuario");
-app.use("/usuario", usuarioRoutes);
+const usuarioRoutes = require("./routes/user");
+app.use("/user", usuarioRoutes);
 
 app.listen(3000, () => console.log("Servidor Rodando na porta 3000"));

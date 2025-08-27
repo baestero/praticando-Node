@@ -1,13 +1,9 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const router = express.Router();
 const Usuario = require("../models/Usuario");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const JWTSecret = "feiewifwepfmdwpfjdsfhjqwadfjpwqo"; //env
 
-router.post("/registro", async (req, res) => {
+exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -36,9 +32,9 @@ router.post("/registro", async (req, res) => {
     }
     res.status(500).json({ err: err.message });
   }
-});
+};
 
-router.post("/auth", async (req, res) => {
+exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -86,6 +82,4 @@ router.post("/auth", async (req, res) => {
       .status(500)
       .json({ message: "Erro interno do servidor", type: "error" });
   }
-});
-
-module.exports = router;
+};
