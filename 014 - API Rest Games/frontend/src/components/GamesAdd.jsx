@@ -32,9 +32,9 @@ const GamesAdd = () => {
           return;
         }
 
-        alert("Game cadastrado com sucesso");
-
-        navigate("/games");
+        navigate("/games", {
+          state: { message: "Game cadastrado com sucesso" },
+        });
       } catch (err) {
         setError("Erro de rede: " + err.message);
       }
@@ -67,7 +67,10 @@ const GamesAdd = () => {
           onChange={({ target }) => setPrice(target.value)}
           required
         />
-        <button>Adicionar</button>
+        <button style={{ marginRight: "5px" }}>Adicionar</button>
+        <button onClick={() => navigate("/games", { state: { message: "" } })}>
+          Cancelar
+        </button>
       </form>
       {error && <p>{error}</p>}
     </>

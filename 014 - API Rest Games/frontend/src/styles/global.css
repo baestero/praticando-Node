@@ -122,3 +122,14 @@ hr {
   padding: 20px;
   border-radius: 8px;
 }
+
+.alert-sucess {
+  background: rgb(139, 228, 139);
+  padding: 10px;
+  border-radius: 8px;
+}
+.alert-error {
+  background: rgb(228, 139, 139);
+  padding: 10px;
+  border-radius: 8px;
+}

@@ -69,15 +69,15 @@ exports.deleteGame = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ msg: "ID inválido" });
+    return res.status(400).json({ message: "ID inválido" });
   }
 
   try {
     const game = await Game.findByIdAndDelete(id);
     if (!game) {
-      return res.status(404).json({ msg: "Game não encontrado" });
+      return res.status(404).json({ message: "Game não encontrado" });
     }
-    res.status(200).json({ msg: "Game deletado com sucesso!" });
+    res.status(200).json({ message: "Game deletado com sucesso!" });
   } catch (err) {
     res.status(500).json({ err: err.message });
   }

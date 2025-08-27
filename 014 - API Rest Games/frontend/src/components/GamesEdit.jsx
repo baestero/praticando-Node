@@ -36,9 +36,8 @@ const GamesEdit = () => {
     })();
   }, [id]);
 
-  function handleClick(event) {
-    event.preventDefault();
-
+  function handleClick(e) {
+    e.preventDefault();
     (async () => {
       try {
         const response = await fetch(`http://localhost:3000/games/${id}`, {
@@ -56,9 +55,7 @@ const GamesEdit = () => {
           alert(json.message);
           return;
         }
-
-        alert("Game editado com sucesso");
-        navigate("/games");
+        navigate("/games", { state: { message: "Game editado com sucesso" } });
       } catch (err) {
         setError("Erro de rede: " + err.message);
       }
@@ -88,9 +85,15 @@ const GamesEdit = () => {
           value={price}
           onChange={({ target }) => setPrice(target.value)}
         />
-        <button>Adicionar</button>
+        <button style={{ marginRight: "5px" }}>Adicionar</button>
+        <button
+          type="button"
+          onClick={() => navigate("/games", { state: { message: "" } })}
+        >
+          Cancelar
+        </button>
       </form>
-      {error && <p>{error}</p>}
+      {error && <p className="alert-error">{error}</p>}
     </>
   );
 };

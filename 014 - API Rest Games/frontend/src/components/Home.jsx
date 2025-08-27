@@ -1,10 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [games, setGames] = React.useState(null);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWUwZjFhZDI1NDhkNGNlYTgxMzE3NyIsImVtYWlsIjoibGVvbm92b0BsZW8uY29tIiwiaWF0IjoxNzU2MjM3NjA0LCJleHAiOjE3NTYzMjQwMDR9.H6TLHqgArQT22jJhypeAKxA_h2QAycOIrGxcqZu9aus";
+  const [message, setMessage] = React.useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+
+  React.useEffect(() => {
+    if (location.state?.message) {
+      setMessage(location.state.message);
+
+      const timer = setTimeout(() => setMessage(""), 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location.state]);
 
   React.useEffect(() => {
     (async () => {
@@ -38,15 +51,23 @@ const Home = () => {
 
       if (response.ok) {
         setGames(games.filter((game) => game._id !== id));
-        alert(json.msg);
+        navigate("/games", {
+          state: { message: "Game deletado com sucesso!" },
+        });
       }
     } catch (err) {
       console.log("Erro" + err);
     }
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <>
+      {message && <p className="alert-sucess">{message}</p>}
       <h1>API REST GAMES</h1>
       <ul>
         {games &&
@@ -67,6 +88,9 @@ const Home = () => {
       <Link to={"/games/add"}>
         <button>+</button>
       </Link>
+      <button onClick={handleLogout} style={{ marginLeft: "5px" }}>
+        Logout
+      </button>
     </>
   );
 };

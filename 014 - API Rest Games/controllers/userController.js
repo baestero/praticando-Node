@@ -38,7 +38,7 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.json({
+    return res.status(404).json({
       message: "Email e Senha, são obrigatórios para o Login!",
       type: "error",
     });
